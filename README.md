@@ -18,12 +18,39 @@ Step 2. Add the dependency
 	}
 ```
 
-图片控件取自Google工作人员的开源控件[PhotoView](https://github.com/chrisbanes/PhotoView)
+图片控件使用的[PhotoView](https://github.com/chrisbanes/PhotoView)
 
-参考计算和处理方法取自Wing神的[DragPhotoView](https://github.com/githubwing/DragPhotoView)  
 
-PhotoView2.0.0在我的编译器上使用不了，强迫症使用最新的我就把源码考了过来，总共就只有5个类6个接口
+在Wing神的[DragPhotoView](https://github.com/githubwing/DragPhotoView)  基础上修改而来，里面使用到了[PhotoView](https://github.com/chrisbanes/PhotoView)
+但是PhotoView 2.0.0在我的编译器上使用不了，强迫症使用最新的我就把源码考了过来
 
-Wing神没有处理ViewPager的横向滑动冲突以及多图片返回事件，于是我做了一点修改，用到了项目中。
 
-图片加载使用的Google推荐的[Glide](https://github.com/bumptech/glide)
+图片加载使用了Google推荐的[Glide](https://github.com/bumptech/glide)
+
+### 效果图
+
+![image](https://github.com/MrWangChong/DragPhotoView/blob/master/image/imageshow.gif)
+
+使用就参照ImageShowActivity就行
+
+在我的适配器中声明了一个ImageView[] imageViews，如果是单张图片就不需要，如果是多张图片就要用数组把列表中的图片保存起来。
+```java
+    @Override
+    public void onBindViewHolder(ImageViewHolder viewHolder, int position) {
+        if (imageViews == null) {
+            imageViews = new ImageView[images.length];
+        }
+        imageViews[position] = viewHolder.image;
+
+        showImage(images[position], viewHolder.image);
+
+        final int currentPosition = position;
+        viewHolder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //List转[] --- List.toArray(new String[List.size()])
+                ImageShowActivity.startImageActivity((Activity) mContext, imageViews, images, currentPosition);
+            }
+        });
+    }
+```
