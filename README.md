@@ -2,7 +2,7 @@
 
 [![](https://jitpack.io/v/MrWangChong/DragPhotoView.svg)](https://jitpack.io/#MrWangChong/DragPhotoView)
 
-## [下载APK体验](https://github.com/MrWangChong/DragPhotoView/blob/master/apk/app-debug.apk)
+## [下载APK体验](https://raw.githubusercontent.com/MrWangChong/DragPhotoView/master/apk/app-debug.apk)
 
 ### 引入
 Step 1. Add the JitPack repository to your build file Add it in your root build.gradle at the end of repositories:
