@@ -64,12 +64,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.RecyclerVi
         Log.v("DetailAdapter", infos.get(position).title);
         viewHolder.recycler.setLayoutManager(new GridLayoutManager(mContext, 4));
         viewHolder.recycler.setAdapter(new ImageAdapter(infos.get(position).images));
-        viewHolder.recycler.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.set(4, 4, 4, 4);
-            }
-        });
     }
 
     // 自定义的ViewHolder，持有每个Item的的所有界面元素
@@ -104,6 +98,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.RecyclerVi
         public ImageViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             ImageView image = new ImageView(mContext);
             RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(250, 250);
+            lp.setMargins(0, 4, 0, 4);
             image.setLayoutParams(lp);
             return new ImageViewHolder(image);
         }

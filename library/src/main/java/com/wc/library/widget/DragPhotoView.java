@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -392,7 +393,11 @@ public class DragPhotoView extends PhotoView {
         float targetHeight = (float) getHeight();
         float targetWidth = (float) getWidth();
         float scaleX = (float) width / targetWidth;
-        float scaleY = (float) height / targetHeight;
+        float imageHeight = targetHeight;
+        if (getDrawable() != null) {
+            imageHeight = getDrawable().getIntrinsicHeight();
+        }
+        float scaleY = (float) height / imageHeight;
 
         float targetCenterX = locationPhoto[0] + targetWidth / 2;
         float targetCenterY = locationPhoto[1] + targetHeight / 2;
@@ -485,7 +490,11 @@ public class DragPhotoView extends PhotoView {
         float targetHeight = (float) getHeight();
         float targetWidth = (float) getWidth();
         float scaleX = (float) width / targetWidth;
-        float scaleY = (float) height / targetHeight;
+        float imageHeight = targetHeight;
+        if (getDrawable() != null) {
+            imageHeight = getDrawable().getIntrinsicHeight();
+        }
+        float scaleY = (float) height / imageHeight;
 
         float targetCenterX = locationPhoto[0] + targetWidth / 2;
         float targetCenterY = locationPhoto[1] + targetHeight / 2;
