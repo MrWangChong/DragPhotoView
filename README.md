@@ -1,4 +1,5 @@
 ### 高仿微信图片展示界面
+[![](https://jitpack.io/v/MrWangChong/DragPhotoView.svg)](https://jitpack.io/#MrWangChong/DragPhotoView)
 图片控件取自Google工作人员的开源控件[PhotoView](https://github.com/chrisbanes/PhotoView)  
 
 参考计算和处理方法取自Wing神的[DragPhotoView](https://github.com/githubwing/DragPhotoView)  
