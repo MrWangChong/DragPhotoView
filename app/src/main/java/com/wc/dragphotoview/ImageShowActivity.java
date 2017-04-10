@@ -23,7 +23,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.wc.library.widget.DragPhotoView;
+import com.wc.dragphoto.widget.DragPhotoView;
 
 import java.util.ArrayList;
 
