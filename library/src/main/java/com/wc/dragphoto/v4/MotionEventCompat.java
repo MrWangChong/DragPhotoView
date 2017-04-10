@@ -1,4 +1,4 @@
-package com.wc.dragphoto;
+package com.wc.dragphoto.v4;
 import android.os.Build;
 import android.view.MotionEvent;
 
