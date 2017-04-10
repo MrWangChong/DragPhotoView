@@ -1,4 +1,4 @@
-package com.wc.library.photoview;
+package com.wc.dragphoto.photoview;
 
 import android.view.MotionEvent;
 import android.widget.ImageView;

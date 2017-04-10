@@ -1,4 +1,4 @@
-package com.wc.library.widget;
+package com.wc.dragphoto.widget;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -8,12 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import com.wc.library.photoview.PhotoView;
+import com.wc.dragphoto.photoview.PhotoView;
 
 
 /**
