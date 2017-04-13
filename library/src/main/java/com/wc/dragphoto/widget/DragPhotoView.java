@@ -107,8 +107,9 @@ public class DragPhotoView extends PhotoView {
                     final float yDiff = event.getY() - mDownY;
                     //正在滑动中，上一次的TranslateX Y不等于0，Y的移动距离达到了滑动触发点，则把事件交给DragPhotoView
                     if (isTouchEvent || mLastTranslateX != 0 || mLastTranslateY != 0 || yDiff > mTouchSlop) {
-                        if (mTranslateY == 0 && mTranslateX != 0) {
-                            //如果不消费事件，则不作操作
+//                        && yDiff < mTouchSlop
+                        if (mTranslateY == 0 && mTranslateX != 0 && yDiff < mTouchSlop) {
+//                            //如果不消费事件，则不作操作
                             if (!isTouchEvent) {
                                 mScaleX = 1;
                                 mScaleY = 1;
@@ -204,47 +205,9 @@ public class DragPhotoView extends PhotoView {
         if (mScaleX == 1 && mScaleY == 1 && mTranslateX == 0) {
             return;
         }
-        //Scale动画
-        ValueAnimator animator = ValueAnimator.ofFloat(mScaleX, 1);
-        animator.setDuration(DURATION);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                if (isAnimate) {
-                    mScaleX = (float) valueAnimator.getAnimatedValue();
-                    mScaleY = (float) valueAnimator.getAnimatedValue();
-                    invalidate();
-                }
-            }
-        });
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-                isAnimate = true;
-            }
 
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                if (mTapListener != null && isAnimate) {
-                    mTapListener.onTap(DragPhotoView.this);
-                }
-                isAnimate = false;
-                animator.removeAllListeners();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
-        });
-        animator.start();
         //Alpha动画
-        animator = ValueAnimator.ofInt(mAlpha, 255);
+        ValueAnimator animator = ValueAnimator.ofInt(mAlpha, 255);
         animator.setDuration(DURATION);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -278,6 +241,53 @@ public class DragPhotoView extends PhotoView {
                     mTranslateY = (float) valueAnimator.getAnimatedValue();
                     mLastTranslateY = mTranslateY;
                 }
+            }
+        });
+        animator.start();
+
+        //Scale动画
+        animator = ValueAnimator.ofFloat(mScaleX, 1);
+        animator.setDuration(DURATION);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                if (isAnimate) {
+                    mScaleX = (float) valueAnimator.getAnimatedValue();
+                    mScaleY = (float) valueAnimator.getAnimatedValue();
+                    invalidate();
+                }
+            }
+        });
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                isAnimate = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                if (mTapListener != null && isAnimate) {
+                    mTapListener.onTap(DragPhotoView.this);
+                }
+                if (isAnimate) {
+                    mScaleX = 1;
+                    mScaleY = 1;
+                    mTranslateX = 0;
+                    mTranslateY = 0;
+                    invalidate();
+                }
+                isAnimate = false;
+                animator.removeAllListeners();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
             }
         });
         animator.start();
