@@ -55,6 +55,7 @@ public class DragPhotoView extends PhotoView {
     private int mTouchSlop;
     private boolean isActivityAnimate = false;
     private boolean isFinshAnimate = false;
+    private boolean isLongClick = false;
 
     public DragPhotoView(Context context) {
         this(context, null);
@@ -101,8 +102,12 @@ public class DragPhotoView extends PhotoView {
                     canFinish = !canFinish;
                     isActivityAnimate = false;
                     isAnimate = false;
+                    isLongClick = false;
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    if (isLongClick) {//长按事件触发之后不做处理
+                        return super.dispatchTouchEvent(event);
+                    }
                     //in viewpager
                     final float yDiff = event.getY() - mDownY;
                     //正在滑动中，上一次的TranslateX Y不等于0，Y的移动距离达到了滑动触发点，则把事件交给DragPhotoView
@@ -136,6 +141,7 @@ public class DragPhotoView extends PhotoView {
                     if (event.getPointerCount() == 1) {
                         onActionUp(event);
                         isTouchEvent = false;
+                        isLongClick = false;
                         //judge finish or not
 //                        postDelayed(new Runnable() {
 //                            @Override
@@ -302,6 +308,22 @@ public class DragPhotoView extends PhotoView {
                 if (!isAnimate && !isFinshAnimate) {
                     l.onClick(v);
                 }
+            }
+        });
+    }
+
+    @Override
+    public void setOnLongClickListener(final View.OnLongClickListener l) {
+        super.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!isAnimate && !isFinshAnimate) {
+                    if (mScaleX == 1 && mScaleY == 1 && mTranslateX == 0) {
+                        isLongClick = true;
+                        return l.onLongClick(v);
+                    }
+                }
+                return false;
             }
         });
     }

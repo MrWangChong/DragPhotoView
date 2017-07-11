@@ -1,7 +1,9 @@
 package com.wc.dragphotoview;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -140,6 +143,22 @@ public class ImageShowActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     finishWithAnimation();
+                }
+            });
+            final int index = i;
+            mPhotoViews[i].setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Dialog dialog = new AlertDialog.Builder(ImageShowActivity.this)
+                            .setTitle("长按Dialog").setMessage("这是第" + index + "个位置的图片")
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).create();
+                    dialog.show();
+                    return true;
                 }
             });
             mPhotoViews[i].setOnDragListener(new DragPhotoView.OnDragListener() {
