@@ -32,6 +32,7 @@ import android.widget.ImageView;
 public class PhotoView extends ImageView {
 
     private PhotoViewAttacher attacher;
+    private ScaleType pendingScaleType;
 
     public PhotoView(Context context) {
         this(context, null);
@@ -57,6 +58,11 @@ public class PhotoView extends ImageView {
         //We always pose as a Matrix scale type, though we can change to another scale type
         //via the attacher
         super.setScaleType(ScaleType.MATRIX);
+        //apply the previously applied scale type
+        if (pendingScaleType != null) {
+            setScaleType(pendingScaleType);
+            pendingScaleType = null;
+        }
     }
 
     /**
@@ -92,26 +98,36 @@ public class PhotoView extends ImageView {
 
     @Override
     public void setScaleType(ScaleType scaleType) {
-        attacher.setScaleType(scaleType);
+        if (attacher == null) {
+            pendingScaleType = scaleType;
+        } else {
+            attacher.setScaleType(scaleType);
+        }
     }
 
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
         // setImageBitmap calls through to this method
-        attacher.update();
+        if (attacher != null) {
+            attacher.update();
+        }
     }
 
     @Override
     public void setImageResource(int resId) {
         super.setImageResource(resId);
-        attacher.update();
+        if (attacher != null) {
+            attacher.update();
+        }
     }
 
     @Override
     public void setImageURI(Uri uri) {
         super.setImageURI(uri);
-        attacher.update();
+        if (attacher != null) {
+            attacher.update();
+        }
     }
 
     @Override
@@ -154,6 +170,14 @@ public class PhotoView extends ImageView {
 
     public boolean setDisplayMatrix(Matrix finalRectangle) {
         return attacher.setDisplayMatrix(finalRectangle);
+    }
+
+    public void getSuppMatrix(Matrix matrix) {
+        attacher.getSuppMatrix(matrix);
+    }
+
+    public boolean setSuppMatrix(Matrix matrix) {
+        return attacher.setDisplayMatrix(matrix);
     }
 
     public float getMinimumScale() {
@@ -202,6 +226,14 @@ public class PhotoView extends ImageView {
 
     public void setOnOutsidePhotoTapListener(OnOutsidePhotoTapListener listener) {
         attacher.setOnOutsidePhotoTapListener(listener);
+    }
+
+    public void setOnViewTapListener(OnViewTapListener listener) {
+        attacher.setOnViewTapListener(listener);
+    }
+
+    public void setOnViewDragListener(OnViewDragListener listener) {
+        attacher.setOnViewDragListener(listener);
     }
 
     public void setScale(float scale) {
